@@ -1,0 +1,21 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+<bean id="Account"
+	class="com.salesforce.dataloader.process.ProcessRunner"
+	singleton="false">
+		<description>Export Account Data</description>
+		<property name="name" value="Account"/>
+		<property name="configOverrideMap">
+		<map>
+			<entry key="sfdc.enableLastRunOutput" value="false"/>
+			<entry key="sfdc.entity" value="Account"/>
+			<entry key="process.operation" value="extract"/>
+			<entry key="sfdc.extractionRequestSize" value="500"/>
+			<entry key="sfdc.extractionSOQL" value="SELECT Id FROM Account"/>
+			<entry key="dataAccess.name" value="C:\Users\Jitendra\Desktop\SFDC to FTP\AccountExport.csv"/>
+			<entry key="dataAccess.type" value="csvWrite"/>
+			<entry key="dataAccess.writeUTF8" value="true" />
+		</map>
+		</property>
+	</bean>
+</beans>

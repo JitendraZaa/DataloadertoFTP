@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    @Author         :   Jitendra Zaa
+    @Blog           :   http://JitendraZaa.com
+    @Description    :   This ANT script depends on external dependency that can be downloaded from "http://commons.apache.org/proper/commons-net/download_net.cgi".
+                    :   once downloaded, jar files can be added in any folder which should be available to Windows shell.
+                    :   Some suggested path - ANT bin directory, Java lib directory. Or in any directive that is added in PATH env variable.
+                    :   Getting started with Dataloader - http://www.jitendrazaa.com/blog/salesforce/tutorial-of-command-line-dataloader-salesforce/
+                    :   Dataloader and ANT  -   http://www.jitendrazaa.com/blog/salesforce/automate-command-line-dataloader-using-ant-with-dynamic-arguments-and-query/
+--> 
+<project name="Export" default="all">
+    <property file="build.properties"/>
+    <property environment="env"/>   
+    <macrodef name="export_Account">
+        <sequential> 
+            <java classname="com.salesforce.dataloader.process.ProcessRunner" 
+                classpath="D:\Program Files (x86)\salesforce.com\Data Loader\dataloader-33.0.0-uber.jar" failonerror="true">
+                <sysproperty key="salesforce.config.dir" value="config"/>
+                <arg line="process.name=Account"/>
+            </java> 
+        </sequential>
+    </macrodef> 
+    <target name="all">
+        <export_Account /> 
+        <ftp server="${ftpServer}"
+               port="${ftpPort}" 
+               userid="${ftpUserName}"
+               password="${ftpPassword}"
+               passive="yes" 
+               binary="no">
+            <fileset dir="${localFolder}">
+              <include name="**/*.csv"/>
+            </fileset>
+          </ftp>
+    </target>
+</project>
